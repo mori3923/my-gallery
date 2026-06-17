@@ -13,3 +13,69 @@ body { background-color: #e0f7fa; color: #333; margin: 0; padding: 20px; font-fa
 
 .flag-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
 .view-more-btn { background-color: #e53935; color: #fff; border: none; padding: 12px 40px; border-radius: 25px; cursor: pointer; }
+
+/* ポップアップの背景（暗くなる部分） */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* ポップアップの白い箱 */
+.popup-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    position: relative;
+    max-width: 90%;
+}
+
+/* 閉じるボタン */
+.popup-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #666;
+}
+
+/* スライダー部分の配置 */
+.slider-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+/* メイン画像 */
+#popup-main-image {
+    max-width: 300px;
+    max-height: 300px;
+    object-fit: contain;
+    border-radius: 5px;
+}
+
+/* スライダーの矢印ボタン */
+.slider-btn {
+    background-color: #e53935;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.slider-btn:hover {
+    background-color: #d32f2f;
+}

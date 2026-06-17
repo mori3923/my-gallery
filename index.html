@@ -12,13 +12,25 @@
     <header class="header">
         <h1>Miniature World Gallery</h1>
     </header>
+    
     <div id="map-container"></div>
+    
     <main>
         <div id="flag-container" class="flag-grid"></div>
-        <div class="view-more-container">
-            <button id="view-more-btn" class="view-more-btn">View More</button>
-        </div>
     </main>
+
+    <div id="popup-overlay" class="popup-overlay" style="display: none;">
+        <div class="popup-content">
+            <span id="popup-close" class="popup-close">×</span>
+            <h2 id="popup-dish-name">作品名</h2>
+            <div class="slider-container">
+                <button id="slider-prev" class="slider-btn">◀</button>
+                <img id="popup-main-image" src="" alt="作品画像">
+                <button id="slider-next" class="slider-btn">▶</button>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
