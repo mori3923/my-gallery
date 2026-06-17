@@ -2,13 +2,12 @@ let map;
 let currentImageIndex = 0;
 let currentWorkImages = [];
 let currentWorkPath = '';
-let globalWorks = []; // VIEW MOREの一覧表示用にデータを取っておく変数
+let globalWorks = []; 
 
-// ページ読み込み時の処理
 document.addEventListener('DOMContentLoaded', () => {
     initMap();
 
-    // VIEW MORE ボタンを押したら一覧を出す
+    // VIEW MORE ボタン
     const viewMoreBtn = document.getElementById('view-more-btn');
     if (viewMoreBtn) {
         viewMoreBtn.addEventListener('click', () => {
@@ -55,18 +54,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// 地図の初期化
 function initMap() {
     map = new maplibregl.Map({
         container: 'map-container',
-        // moriさんの最初の美しい地図（CartoDB）
         style: 'https://tiles.basemaps.cartocdn.com/gl/voyager-gl-style/style.json',
         center: [138.0, 36.0],
-        zoom: 2.0, // 世界地図が見やすいズーム率
+        zoom: 2.0, 
         dragRotate: false
     });
 
-    // データの読み込み
     fetch('data.json')
         .then(response => {
             if (!response.ok) throw new Error('data.jsonが見つかりません');
@@ -76,7 +72,6 @@ function initMap() {
             globalWorks = data.works || []; 
 
             globalWorks.forEach(work => {
-                // デフォルトの美しい赤いしずくピン
                 new maplibregl.Marker({ color: '#e53935' })
                     .setLngLat([work.lng, work.lat])
                     .addTo(map)
@@ -85,7 +80,6 @@ function initMap() {
                     });
             });
 
-            // 国旗の表示
             renderFlags(globalWorks);
         })
         .catch(error => console.error('地図データの読み込みエラー:', error));
@@ -108,11 +102,10 @@ function showAllWorksList() {
         item.style.color = '#333';
         item.innerText = `${work.title} (${work.country.toUpperCase()})`; 
 
-        // リスト内の項目をクリックしたときの動き
         item.addEventListener('click', () => {
-            listOverlay.style.display = 'none'; // リストを閉じる
-            if (map) map.flyTo({ center: [work.lng, work.lat], zoom: 5 }); // マップ移動
-            showPopup(work); // その作品の写真を出す
+            listOverlay.style.display = 'none'; 
+            if (map) map.flyTo({ center: [work.lng, work.lat], zoom: 5 }); 
+            showPopup(work); 
         });
         
         listContainer.appendChild(item);
@@ -134,10 +127,8 @@ function showPopup(work) {
 
     if (!overlay) return;
 
-    // 作品名（小さい文字）を設定
     if (dishName) dishName.innerText = work.title;
     
-    // 国名（大きい文字）を設定
     if (countryName) {
         const countryMap = { 
             'jp': 'Japan', 'us': 'United States', 'it': 'Italy', 
@@ -146,18 +137,14 @@ function showPopup(work) {
         countryName.innerText = countryMap[work.country.toLowerCase()] || work.country.toUpperCase();
     }
 
-    // 左上の国旗アイコンを設定
     if (flagImg) flagImg.src = `assets/flags/${work.country.toLowerCase()}.png`;
 
-    // 画像リストの読み込み
     currentWorkImages = (work.images && work.images.length > 0) ? work.images : ['1.jpg'];
     currentWorkPath = `assets/${work.country}/${work.folder}/`;
     currentImageIndex = 0;
 
-    // メイン画像を表示
     if (mainImg) mainImg.src = currentWorkPath + currentWorkImages[0];
 
-    // 画像が1枚以下の場合は矢印を隠す
     if (currentWorkImages.length <= 1) {
         if (prevBtn) prevBtn.style.display = 'none';
         if (nextBtn) nextBtn.style.display = 'none';
@@ -200,7 +187,6 @@ function renderFlags(works) {
         img.style.height = '100%';
         img.style.objectFit = 'cover'; 
         
-        // 画像が無い場合の文字表示
         img.onerror = () => {
             img.style.display = 'none';
             flagWrap.innerText = country.toUpperCase();
@@ -211,7 +197,6 @@ function renderFlags(works) {
 
         flagWrap.appendChild(img);
 
-        // 国旗クリックでマップ移動＆写真表示
         flagWrap.addEventListener('click', () => {
             const targetWork = works.find(w => w.country === country);
             if (targetWork && map) {

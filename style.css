@@ -1,10 +1,24 @@
-/* --- ここから下のポップアップ関連CSSを上書き --- */
+@charset "UTF-8";
+body { background-color: #e0f7fa; color: #333; margin: 0; padding: 20px; font-family: sans-serif; }
+.header { text-align: center; margin-bottom: 20px; }
+
+#map-container {
+    width: 100%;
+    height: 500px;
+    background-color: #e0f7fa;
+    margin: 20px 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.flag-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
+.view-more-btn { background-color: #e53935; color: #fff; border: none; padding: 12px 40px; border-radius: 25px; cursor: pointer; font-weight: bold; font-size: 16px; }
 
 /* ポップアップの背景 */
 .popup-overlay {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* 少し明るめの透過黒 */
+    background-color: rgba(0, 0, 0, 0.5); 
     display: flex; justify-content: center; align-items: center;
     z-index: 1000;
 }
@@ -13,10 +27,10 @@
 .popup-content {
     background-color: #fff;
     padding: 25px;
-    border-radius: 12px; /* 角を大きめに丸く */
+    border-radius: 12px; 
     position: relative;
     max-width: 90%;
-    width: 450px; /* 少し幅広に */
+    width: 450px; 
     box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
 
@@ -51,7 +65,7 @@
 #popup-country-name {
     margin: 0;
     font-size: 22px;
-    color: #003366; /* 少し上品な紺色 */
+    color: #003366; 
 }
 
 #popup-dish-name {
@@ -80,7 +94,7 @@
 }
 
 .image-wrapper {
-    background-color: #f0f0f0; /* 画像1枚目のような薄いグレーの背景 */
+    background-color: #f0f0f0; 
     border-radius: 8px;
     padding: 10px;
     width: 100%;
