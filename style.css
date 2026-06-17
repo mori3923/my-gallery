@@ -1,98 +1,15 @@
 @charset "UTF-8";
-
-/* ==========================================
-   ★ コントロールパネル（設定値の集約）★
-========================================== */
-:root {
-    /* --- ★追加：地図の設定 --- */
-    --map-height-mobile: 40vh;     /* スマホ画面での地図の高さ（40vh＝画面の40%） */
-    --map-height-pc: 500px;        /* PC画面での地図の高さ */
-
-    /* --- 国旗アイコンの設定 --- */
-    --flag-size-mobile: 60px;
-    --flag-size-pc: 80px;
-    --flag-gap: 15px;
-
-    /* --- 余白と色の設定 --- */
-    --padding-mobile: 10px;
-    --padding-pc: 20px;
-    --bg-color: #e0f7fa;           /* 全体の背景色（海の水色） */
-    --text-color: #333333;
-
-    /* --- ポップアップの設定 --- */
-    --popup-width-mobile: 95%;
-    --popup-width-pc: 600px;
-    --popup-bg-color: #ffffff;
-    --overlay-color: rgba(0, 0, 0, 0.6);
-
-    /* --- スライダーとView Moreボタンの設定 --- */
-    --slider-btn-bg: rgba(0, 0, 0, 0.4);
-    --slider-btn-hover: rgba(0, 0, 0, 0.8);
-    --slider-btn-color: #ffffff;
-    --view-more-bg: #e53935;
-    --view-more-color: #ffffff;
-}
-
-/* ==========================================
-   基本レイアウトと地図
-========================================== */
-body { background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: var(--padding-mobile); font-family: sans-serif; }
+body { background-color: #e0f7fa; color: #333; margin: 0; padding: 20px; font-family: sans-serif; }
 .header { text-align: center; margin-bottom: 20px; }
 
-/* ★追加：地図エリアのデザイン */
 #map-container {
     width: 100%;
-    height: var(--map-height-mobile); /* 設定パネルのスマホ高さを適用 */
-    margin-bottom: 20px;
-    border-radius: 8px;               /* 地図の角を少し丸くする */
+    height: 500px; /* ここが重要です */
+    background-color: #e0f7fa;
+    margin: 20px 0;
+    border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-.flag-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--flag-gap); }
-.flag-btn { width: var(--flag-size-mobile); height: var(--flag-size-mobile); cursor: pointer; border: none; background: none; padding: 0; transition: transform 0.2s; }
-.flag-btn:hover { transform: scale(1.1); }
-.flag-btn img { width: 100%; height: 100%; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-
-.view-more-container { text-align: center; margin-top: 30px; }
-.view-more-btn { background-color: var(--view-more-bg); color: var(--view-more-color); border: none; padding: 12px 40px; font-size: 16px; font-weight: bold; border-radius: 25px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-.view-more-btn:hover { opacity: 0.8; }
-
-/* ==========================================
-   ポップアップとスライダーのデザイン（変更なし）
-========================================== */
-.popup-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--overlay-color); z-index: 1000; justify-content: center; align-items: center; }
-.popup-content { background-color: var(--popup-bg-color); width: var(--popup-width-mobile); max-height: 90vh; overflow-y: auto; border-radius: 12px; padding: 20px; position: relative; box-sizing: border-box; }
-.popup-close { position: absolute; top: 10px; right: 15px; font-size: 24px; background: none; border: none; cursor: pointer; color: #999; }
-.popup-header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
-.popup-flag { width: 50px; height: 50px; border-radius: 50%; }
-.popup-title-area h2 { margin: 0; font-size: 20px; }
-.popup-title-area p { margin: 0; color: #666; font-size: 14px; }
-.popup-image-container { position: relative; width: 100%; }
-.popup-image-container img { width: 100%; border-radius: 8px; display: block; }
-.slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background-color: var(--slider-btn-bg); color: var(--slider-btn-color); border: none; padding: 10px 15px; font-size: 18px; cursor: pointer; border-radius: 4px; }
-.slider-btn:hover { background-color: var(--slider-btn-hover); }
-#slider-prev { left: 10px; }
-#slider-next { right: 10px; }
-
-.view-all-content { background-color: var(--popup-bg-color); width: 95%; max-width: 800px; height: 90vh; overflow-y: auto; border-radius: 12px; padding: 20px; position: relative; box-sizing: border-box; }
-.view-all-title { text-align: center; margin-top: 0; margin-bottom: 20px; color: var(--text-color); }
-.view-all-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
-.view-all-item { display: flex; align-items: center; gap: 15px; padding: 10px; border: 1px solid #ccc; border-radius: 8px; cursor: pointer; background-color: #fafafa; }
-.view-all-item:hover { background-color: #f0f0f0; }
-.view-all-item img { width: 40px; height: 40px; border-radius: 50%; }
-.view-all-item-name { font-size: 16px; font-weight: bold; }
-
-/* ==========================================
-   PCなど画面が広い時
-========================================== */
-@media (min-width: 768px) {
-    body { padding: var(--padding-pc); }
-    .flag-btn { width: var(--flag-size-pc); height: var(--flag-size-pc); }
-    .popup-content { width: var(--popup-width-pc); }
-    .view-all-grid { grid-template-columns: repeat(3, 1fr); }
-    
-    /* ★追加：PC画面では地図の高さを固定する */
-    #map-container {
-        height: var(--map-height-pc);
-    }
-}
+.flag-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
+.view-more-btn { background-color: #e53935; color: #fff; border: none; padding: 12px 40px; border-radius: 25px; cursor: pointer; }

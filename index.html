@@ -4,53 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Miniature World Gallery</title>
-    
     <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@3.x/dist/maplibre-gl.css" />
     <script src="https://unpkg.com/maplibre-gl@3.x/dist/maplibre-gl.js"></script>
-
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <header class="header">
         <h1>Miniature World Gallery</h1>
     </header>
-
     <div id="map-container"></div>
-
     <main>
         <div id="flag-container" class="flag-grid"></div>
         <div class="view-more-container">
             <button id="view-more-btn" class="view-more-btn">View More</button>
         </div>
     </main>
-
-    <div id="view-all-overlay" class="popup-overlay">
-        <div class="view-all-content">
-            <button id="view-all-close" class="popup-close">×</button>
-            <h2 class="view-all-title">All Collections</h2>
-            <div id="view-all-grid" class="view-all-grid"></div>
-        </div>
-    </div>
-
-    <div id="popup-overlay" class="popup-overlay">
-        <div class="popup-content">
-            <button id="popup-close" class="popup-close">×</button>
-            <div class="popup-header">
-                <img id="popup-flag" src="" alt="flag" class="popup-flag">
-                <div class="popup-title-area">
-                    <h2 id="popup-country-name">Country Name</h2>
-                    <p id="popup-dish-name">Dish Name</p>
-                </div>
-            </div>
-            <div class="popup-image-container">
-                <button id="slider-prev" class="slider-btn">◀</button>
-                <img id="popup-main-image" src="" alt="Main Dish">
-                <button id="slider-next" class="slider-btn">▶</button>
-            </div>
-        </div>
-    </div>
-
     <script src="script.js"></script>
 </body>
 </html>
