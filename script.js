@@ -3,11 +3,9 @@ let currentImageIndex = 0;
 let currentWorkImages = [];
 let currentWorkPath = '';
 
-// ページ読み込み時の処理
 document.addEventListener('DOMContentLoaded', () => {
     initMap();
 
-    // VIEW MORE ボタンの動作
     const viewMoreBtn = document.getElementById('view-more-btn');
     if (viewMoreBtn) {
         viewMoreBtn.addEventListener('click', () => {
@@ -15,7 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ポップアップを閉じるボタン
     const closeBtn = document.getElementById('popup-close');
     if (closeBtn) {
         closeBtn.addEventListener('click', () => {
@@ -23,7 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // スライダー（次へ）
     const nextBtn = document.getElementById('slider-next');
     if (nextBtn) {
         nextBtn.addEventListener('click', () => {
@@ -34,7 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // スライダー（前へ）
     const prevBtn = document.getElementById('slider-prev');
     if (prevBtn) {
         prevBtn.addEventListener('click', () => {
@@ -46,18 +41,35 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// 地図の初期化
+// 外部サーバーのURLエラーに巻き込まれない、直接指定の水色地図データ
+const osmStyle = {
+    "version": 8,
+    "sources": {
+        "osm": {
+            "type": "raster",
+            "tiles": ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
+            "tileSize": 256,
+            "attribution": "&copy; OpenStreetMap Contributors"
+        }
+    },
+    "layers": [{
+        "id": "osm-tiles",
+        "type": "raster",
+        "source": "osm",
+        "minzoom": 0,
+        "maxzoom": 19
+    }]
+};
+
 function initMap() {
     map = new maplibregl.Map({
         container: 'map-container',
-        // 水色の海になる、標準的で安定した地図スタイル
-        style: 'https://tile.openstreetmap.jp/styles/osm-bright-ja/style.json',
+        style: osmStyle, // URLではなく上記の安全なデータを直接読み込ませます
         center: [138.0, 36.0],
         zoom: 4.0,
         dragRotate: false
     });
 
-    // データの読み込み
     fetch('data.json')
         .then(response => {
             if (!response.ok) throw new Error('data.jsonが見つかりません');
@@ -66,7 +78,6 @@ function initMap() {
         .then(data => {
             const works = data.works || [];
 
-            // 1. ピンを立てる
             works.forEach(work => {
                 const el = document.createElement('div');
                 el.className = 'marker';
@@ -86,13 +97,11 @@ function initMap() {
                     });
             });
 
-            // 2. 丸い国旗アイコンを表示する
             renderFlags(works);
         })
         .catch(error => console.error('地図データの読み込みエラー:', error));
 }
 
-// ポップアップの表示
 function showPopup(work) {
     const overlay = document.getElementById('popup-overlay');
     const mainImg = document.getElementById('popup-main-image');
@@ -100,16 +109,14 @@ function showPopup(work) {
     const nextBtn = document.getElementById('slider-next');
     const dishName = document.getElementById('popup-dish-name');
 
-    if (!overlay) return; // HTMLにポップアップが存在しない場合は処理を中断（エラー防止）
+    if (!overlay) return;
 
     if (dishName) dishName.innerText = work.title;
 
-    // Pythonツールで整頓した画像リストを使用（無ければ1.jpgを仮で探す）
     currentWorkImages = (work.images && work.images.length > 0) ? work.images : ['1.jpg'];
     currentWorkPath = `assets/${work.country}/${work.folder}/`;
     currentImageIndex = 0;
 
-    // 画像をセットして矢印の表示・非表示を切り替え
     if (mainImg) mainImg.src = currentWorkPath + currentWorkImages[0];
 
     if (currentWorkImages.length <= 1) {
@@ -123,19 +130,16 @@ function showPopup(work) {
     overlay.style.display = 'flex';
 }
 
-// 丸い国旗アイコンの生成
 function renderFlags(works) {
     const flagContainer = document.getElementById('flag-container');
     if (!flagContainer) return;
 
-    // 重複をなくした国コード一覧
     const countries = [...new Set(works.map(w => w.country))];
     flagContainer.innerHTML = ''; 
 
     countries.forEach(country => {
         if (!country) return;
         
-        // 丸い枠組みを作る
         const flagWrap = document.createElement('div');
         flagWrap.style.display = 'inline-flex';
         flagWrap.style.justifyContent = 'center';
@@ -156,7 +160,6 @@ function renderFlags(works) {
         img.style.height = '100%';
         img.style.objectFit = 'cover'; 
         
-        // 画像が無い場合の安全対策
         img.onerror = () => {
             img.style.display = 'none';
             flagWrap.innerText = country.toUpperCase();
@@ -167,7 +170,6 @@ function renderFlags(works) {
 
         flagWrap.appendChild(img);
 
-        // クリックでマップ移動
         flagWrap.addEventListener('click', () => {
             const targetWork = works.find(w => w.country === country);
             if (targetWork && map) {
