@@ -1,39 +1,50 @@
 {
-    "works": [
-        {
-            "country": "jp",
-            "folder": "Sushi",
-            "title": "Sushi",
-            "lat": 36.2048,
-            "lng": 138.2529
-        },
-        {
-            "country": "jp",
-            "folder": "Yakitori",
-            "title": "Yakitori",
-            "lat": 36.2048,
-            "lng": 138.2529
-        },
-        {
-            "country": "us",
-            "folder": "Donuts",
-            "title": "Donuts",
-            "lat": 37.0902,
-            "lng": -95.7129
-        },
-        {
-            "country": "it",
-            "folder": "Caplese",
-            "title": "Caplese",
-            "lat": 41.8719,
-            "lng": 12.5674
-        },
-        {
-            "country": "kr",
-            "folder": "Kimpa",
-            "title": "Kimpa",
-            "lat": 35.9078,
-            "lng": 127.7669
-        }
-    ]
+  "works": [
+    {
+      "title": "Sushi",
+      "country": "jp",
+      "folder": "Sushi",
+      "lng": 138.2529,
+      "lat": 36.2048,
+      "images": [
+        "DSC05642.jpg"
+      ]
+    },
+    {
+      "title": "Yakitori",
+      "country": "jp",
+      "folder": "Yakitori",
+      "lng": 138.2529,
+      "lat": 36.2048,
+      "images": [
+        "DSC05653.jpg"
+      ]
+    },
+    {
+      "title": "Donuts",
+      "country": "us",
+      "folder": "Donuts",
+      "lng": -95.7129,
+      "lat": 37.0902,
+      "images": []
+    },
+    {
+      "title": "Caplese",
+      "country": "it",
+      "folder": "Caplese",
+      "lng": 12.5674,
+      "lat": 41.8719,
+      "images": []
+    },
+    {
+      "title": "Kimpa",
+      "country": "kr",
+      "folder": "Kimpa",
+      "lng": 127.7669,
+      "lat": 35.9078,
+      "images": [
+        "DSC05691.jpg"
+      ]
+    }
+  ]
 }

@@ -7,7 +7,6 @@ let globalWorks = [];
 document.addEventListener('DOMContentLoaded', () => {
     initMap();
 
-    // VIEW MORE ボタン
     const viewMoreBtn = document.getElementById('view-more-btn');
     if (viewMoreBtn) {
         viewMoreBtn.addEventListener('click', () => {
@@ -15,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 写真ポップアップを閉じる
     const closeBtn = document.getElementById('popup-close');
     if (closeBtn) {
         closeBtn.addEventListener('click', () => {
@@ -23,7 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 一覧ポップアップを閉じる
     const listCloseBtn = document.getElementById('list-close');
     if (listCloseBtn) {
         listCloseBtn.addEventListener('click', () => {
@@ -31,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // スライダー次へ
     const nextBtn = document.getElementById('slider-next');
     if (nextBtn) {
         nextBtn.addEventListener('click', () => {
@@ -42,7 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // スライダー前へ
     const prevBtn = document.getElementById('slider-prev');
     if (prevBtn) {
         prevBtn.addEventListener('click', () => {
@@ -85,7 +80,6 @@ function initMap() {
         .catch(error => console.error('地図データの読み込みエラー:', error));
 }
 
-// VIEW MOREの一覧表示機能
 function showAllWorksList() {
     const listOverlay = document.getElementById('list-overlay');
     const listContainer = document.getElementById('all-works-list');
@@ -114,7 +108,6 @@ function showAllWorksList() {
     listOverlay.style.display = 'flex';
 }
 
-// 写真ポップアップの表示
 function showPopup(work) {
     const overlay = document.getElementById('popup-overlay');
     const mainImg = document.getElementById('popup-main-image');
@@ -137,7 +130,8 @@ function showPopup(work) {
         countryName.innerText = countryMap[work.country.toLowerCase()] || work.country.toUpperCase();
     }
 
-    if (flagImg) flagImg.src = `assets/flags/${work.country.toLowerCase()}.png`;
+    // ★修正: 国旗を自動で取得するシステム（FlagCDN）に変更
+    if (flagImg) flagImg.src = `https://flagcdn.com/w80/${work.country.toLowerCase()}.png`;
 
     currentWorkImages = (work.images && work.images.length > 0) ? work.images : ['1.jpg'];
     currentWorkPath = `assets/${work.country}/${work.folder}/`;
@@ -156,7 +150,6 @@ function showPopup(work) {
     overlay.style.display = 'flex';
 }
 
-// 画面下部の国旗アイコン表示
 function renderFlags(works) {
     const flagContainer = document.getElementById('flag-container');
     if (!flagContainer) return;
@@ -181,7 +174,8 @@ function renderFlags(works) {
         flagWrap.style.overflow = 'hidden';
 
         const img = document.createElement('img');
-        img.src = `assets/flags/${country.toLowerCase()}.png`; 
+        // ★修正: 国旗を自動で取得するシステム（FlagCDN）に変更
+        img.src = `https://flagcdn.com/w80/${country.toLowerCase()}.png`; 
         img.alt = country;
         img.style.width = '100%'; 
         img.style.height = '100%';
