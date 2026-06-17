@@ -13,25 +13,44 @@
         <h1>Miniature World Gallery</h1>
     </header>
     
-    <div id="map-container" style="width: 100%; height: 500px; background-color: #e0f7fa;"></div>
+    <div id="map-container"></div>
     
     <main>
         <div id="flag-container" class="flag-grid"></div>
 
         <div class="view-more-container" style="text-align: center; margin-top: 30px; margin-bottom: 30px;">
-            <button id="view-more-btn" class="view-more-btn" style="background-color: #e53935; color: #fff; border: none; padding: 12px 40px; border-radius: 25px; cursor: pointer; font-size: 16px; font-weight: bold;">VIEW MORE</button>
+            <button id="view-more-btn" class="view-more-btn">VIEW MORE</button>
         </div>
     </main>
 
     <div id="popup-overlay" class="popup-overlay" style="display: none;">
         <div class="popup-content">
-            <span id="popup-close" class="popup-close">×</span>
-            <h2 id="popup-dish-name">作品名</h2>
+            <div class="popup-header">
+                <div class="popup-header-left">
+                    <img id="popup-flag" src="" alt="Flag" class="popup-flag">
+                    <div class="popup-titles">
+                        <h2 id="popup-country-name">Country</h2>
+                        <p id="popup-dish-name">Dish</p>
+                    </div>
+                </div>
+                <span id="popup-close" class="popup-close">×</span>
+            </div>
+            
             <div class="slider-container">
                 <button id="slider-prev" class="slider-btn">◀</button>
-                <img id="popup-main-image" src="" alt="作品画像">
+                <div class="image-wrapper">
+                    <img id="popup-main-image" src="" alt="作品画像">
+                </div>
                 <button id="slider-next" class="slider-btn">▶</button>
             </div>
+        </div>
+    </div>
+
+    <div id="list-overlay" class="popup-overlay" style="display: none;">
+        <div class="popup-content" style="max-height: 80vh; overflow-y: auto; width: 300px;">
+            <span id="list-close" class="popup-close">×</span>
+            <h2 style="margin-top: 0; border-bottom: 2px solid #e53935; padding-bottom: 10px;">すべての作品</h2>
+            <div id="all-works-list" style="display: flex; flex-direction: column; text-align: left; margin-top: 10px;"></div>
         </div>
     </div>
 

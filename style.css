@@ -1,81 +1,108 @@
-@charset "UTF-8";
-body { background-color: #e0f7fa; color: #333; margin: 0; padding: 20px; font-family: sans-serif; }
-.header { text-align: center; margin-bottom: 20px; }
+/* --- ここから下のポップアップ関連CSSを上書き --- */
 
-#map-container {
-    width: 100%;
-    height: 500px; /* ここが重要です */
-    background-color: #e0f7fa;
-    margin: 20px 0;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-.flag-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
-.view-more-btn { background-color: #e53935; color: #fff; border: none; padding: 12px 40px; border-radius: 25px; cursor: pointer; }
-
-/* ポップアップの背景（暗くなる部分） */
+/* ポップアップの背景 */
 .popup-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 少し明るめの透過黒 */
+    display: flex; justify-content: center; align-items: center;
     z-index: 1000;
 }
 
 /* ポップアップの白い箱 */
 .popup-content {
     background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
+    padding: 25px;
+    border-radius: 12px; /* 角を大きめに丸く */
     position: relative;
     max-width: 90%;
+    width: 450px; /* 少し幅広に */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+/* ヘッダー部分（国旗と文字） */
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.popup-header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.popup-flag {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.popup-titles {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+#popup-country-name {
+    margin: 0;
+    font-size: 22px;
+    color: #003366; /* 少し上品な紺色 */
+}
+
+#popup-dish-name {
+    margin: 0;
+    font-size: 14px;
+    color: #777;
+    margin-top: 2px;
 }
 
 /* 閉じるボタン */
 .popup-close {
-    position: absolute;
-    top: 10px;
-    right: 15px;
     font-size: 24px;
     font-weight: bold;
     cursor: pointer;
-    color: #666;
+    color: #999;
+    line-height: 1;
 }
+.popup-close:hover { color: #333; }
 
-/* スライダー部分の配置 */
+/* スライダーと画像 */
 .slider-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 15px;
-    margin-top: 10px;
+    gap: 10px;
 }
 
-/* メイン画像 */
+.image-wrapper {
+    background-color: #f0f0f0; /* 画像1枚目のような薄いグレーの背景 */
+    border-radius: 8px;
+    padding: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+}
+
 #popup-main-image {
-    max-width: 300px;
+    max-width: 100%;
     max-height: 300px;
     object-fit: contain;
-    border-radius: 5px;
+    border-radius: 4px;
 }
 
-/* スライダーの矢印ボタン */
 .slider-btn {
-    background-color: #e53935;
-    color: white;
+    background-color: transparent;
+    color: #888;
     border: none;
-    padding: 10px 15px;
-    font-size: 18px;
-    border-radius: 5px;
+    font-size: 24px;
     cursor: pointer;
+    padding: 5px;
 }
-.slider-btn:hover {
-    background-color: #d32f2f;
-}
+.slider-btn:hover { color: #333; }
