@@ -3,33 +3,66 @@ let currentImageIndex = 0;
 let currentWorkImages = [];
 let currentWorkPath = '';
 
+// ページ読み込み時の処理
 document.addEventListener('DOMContentLoaded', () => {
-    // HTMLをいじらなくてもいいように、JS側でポップアップの準備を全自動で行います
-    setupPopupEnvironment();
-    
     initMap();
 
-    // VIEW MORE ボタンの動作（押したことがわかるように機能させました）
+    // VIEW MORE ボタンの動作
     const viewMoreBtn = document.getElementById('view-more-btn');
     if (viewMoreBtn) {
         viewMoreBtn.addEventListener('click', () => {
-            alert('VIEW MOREが押されました！\n（※ここに全作品一覧を展開するなどの機能を追加できます）');
+            alert('VIEW MOREがクリックされました！');
+        });
+    }
+
+    // ポップアップを閉じるボタン
+    const closeBtn = document.getElementById('popup-close');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            document.getElementById('popup-overlay').style.display = 'none';
+        });
+    }
+
+    // スライダー（次へ）
+    const nextBtn = document.getElementById('slider-next');
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            if (currentWorkImages.length > 1) {
+                currentImageIndex = (currentImageIndex + 1) % currentWorkImages.length;
+                document.getElementById('popup-main-image').src = currentWorkPath + currentWorkImages[currentImageIndex];
+            }
+        });
+    }
+
+    // スライダー（前へ）
+    const prevBtn = document.getElementById('slider-prev');
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            if (currentWorkImages.length > 1) {
+                currentImageIndex = (currentImageIndex - 1 + currentWorkImages.length) % currentWorkImages.length;
+                document.getElementById('popup-main-image').src = currentWorkPath + currentWorkImages[currentImageIndex];
+            }
         });
     }
 });
 
+// 地図の初期化
 function initMap() {
     map = new maplibregl.Map({
         container: 'map-container',
-        // 水色ベースの標準的な地図（OpenStreetMap）
+        // 水色の海になる、標準的で安定した地図スタイル
         style: 'https://tile.openstreetmap.jp/styles/osm-bright-ja/style.json',
         center: [138.0, 36.0],
         zoom: 4.0,
         dragRotate: false
     });
 
+    // データの読み込み
     fetch('data.json')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) throw new Error('data.jsonが見つかりません');
+            return response.json();
+        })
         .then(data => {
             const works = data.works || [];
 
@@ -49,17 +82,17 @@ function initMap() {
                     .setLngLat([work.lng, work.lat])
                     .addTo(map)
                     .getElement().addEventListener('click', () => {
-                        showPopup(work); // ここで詳細ウィンドウを呼び出します
+                        showPopup(work);
                     });
             });
 
-            // 2. 国旗アイコンを表示（丸くします）
+            // 2. 丸い国旗アイコンを表示する
             renderFlags(works);
         })
-        .catch(error => console.error('データの読み込みエラー:', error));
+        .catch(error => console.error('地図データの読み込みエラー:', error));
 }
 
-// ギャラリーのポップアップ表示
+// ポップアップの表示
 function showPopup(work) {
     const overlay = document.getElementById('popup-overlay');
     const mainImg = document.getElementById('popup-main-image');
@@ -67,16 +100,18 @@ function showPopup(work) {
     const nextBtn = document.getElementById('slider-next');
     const dishName = document.getElementById('popup-dish-name');
 
+    if (!overlay) return; // HTMLにポップアップが存在しない場合は処理を中断（エラー防止）
+
     if (dishName) dishName.innerText = work.title;
 
-    // Pythonツールからのデータがなければ '1.jpg' を仮置き
+    // Pythonツールで整頓した画像リストを使用（無ければ1.jpgを仮で探す）
     currentWorkImages = (work.images && work.images.length > 0) ? work.images : ['1.jpg'];
     currentWorkPath = `assets/${work.country}/${work.folder}/`;
     currentImageIndex = 0;
 
+    // 画像をセットして矢印の表示・非表示を切り替え
     if (mainImg) mainImg.src = currentWorkPath + currentWorkImages[0];
 
-    // 画像が1枚以下の場合は矢印ボタンを隠す
     if (currentWorkImages.length <= 1) {
         if (prevBtn) prevBtn.style.display = 'none';
         if (nextBtn) nextBtn.style.display = 'none';
@@ -85,43 +120,43 @@ function showPopup(work) {
         if (nextBtn) nextBtn.style.display = 'block';
     }
     
-    if (overlay) overlay.style.display = 'flex';
+    overlay.style.display = 'flex';
 }
 
-// 国旗アイコンの生成処理（ご要望の丸い形にします）
+// 丸い国旗アイコンの生成
 function renderFlags(works) {
     const flagContainer = document.getElementById('flag-container');
     if (!flagContainer) return;
 
+    // 重複をなくした国コード一覧
     const countries = [...new Set(works.map(w => w.country))];
     flagContainer.innerHTML = ''; 
 
     countries.forEach(country => {
         if (!country) return;
         
+        // 丸い枠組みを作る
         const flagWrap = document.createElement('div');
         flagWrap.style.display = 'inline-flex';
         flagWrap.style.justifyContent = 'center';
         flagWrap.style.alignItems = 'center';
         flagWrap.style.margin = '5px';
         flagWrap.style.cursor = 'pointer';
-        
-        // アイコンをまん丸にする設定
         flagWrap.style.width = '45px';
         flagWrap.style.height = '45px';
         flagWrap.style.borderRadius = '50%';
         flagWrap.style.backgroundColor = '#fff';
         flagWrap.style.boxShadow = '0 2px 4px rgba(0,0,0,0.2)';
-        flagWrap.style.overflow = 'hidden'; // 丸枠からはみ出た部分を隠す
+        flagWrap.style.overflow = 'hidden';
 
         const img = document.createElement('img');
         img.src = `assets/flags/${country}.png`; 
         img.alt = country;
         img.style.width = '100%'; 
         img.style.height = '100%';
-        img.style.objectFit = 'cover'; // 画像を崩さずに丸枠に敷き詰める
+        img.style.objectFit = 'cover'; 
         
-        // 画像が無い場合は文字にする
+        // 画像が無い場合の安全対策
         img.onerror = () => {
             img.style.display = 'none';
             flagWrap.innerText = country.toUpperCase();
@@ -132,7 +167,7 @@ function renderFlags(works) {
 
         flagWrap.appendChild(img);
 
-        // クリックでその国へジャンプ
+        // クリックでマップ移動
         flagWrap.addEventListener('click', () => {
             const targetWork = works.find(w => w.country === country);
             if (targetWork && map) {
@@ -143,29 +178,3 @@ function renderFlags(works) {
         flagContainer.appendChild(flagWrap);
     });
 }
-
-// --- 以下、HTMLを編集しなくて済むようにする自動セットアップ処理 ---
-function setupPopupEnvironment() {
-    // ポップアップの枠がHTMLに無ければ自動で作る
-    if (!document.getElementById('popup-overlay')) {
-        const overlay = document.createElement('div');
-        overlay.id = 'popup-overlay';
-        overlay.style.display = 'none';
-        overlay.innerHTML = `
-            <div id="popup-content">
-                <span id="popup-close">×</span>
-                <h2 id="popup-dish-name">作品名</h2>
-                <div id="slider-container">
-                    <button id="slider-prev">◀</button>
-                    <img id="popup-main-image" src="" alt="作品画像">
-                    <button id="slider-next">▶</button>
-                </div>
-            </div>
-        `;
-        document.body.appendChild(overlay);
-
-        // デザイン（CSS）も自動で読み込ませる
-        const style = document.createElement('style');
-        style.innerHTML = `
-            #popup-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; justify-content: center; align-items: center; z-index: 1000; }
-            #popup-content { background: #fff; padding: 20px; border-radius
